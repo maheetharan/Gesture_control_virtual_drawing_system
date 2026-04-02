@@ -5,7 +5,11 @@ mp_hands = mp.solutions.hands
 
 class HandTracker:
     def __init__(self):
-        self.hands = mp_hands.Hands(max_num_hands=1)
+        self.hands = mp_hands.Hands(
+        max_num_hands=1,
+        min_detection_confidence=0.7,
+        min_tracking_confidence=0.7
+)
         self.results = None
 
     def process(self, frame):

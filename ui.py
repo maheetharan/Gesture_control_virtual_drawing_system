@@ -1,33 +1,52 @@
-import cv2
+# ===============================
+# UI MODULE FOR AI DRAW PRO
+# ===============================
 
+import cv2
+import numpy as np
+from config import color
+
+# ================= COLORS =================
 palette = [
-    (0,0,255),
-    (0,255,0),
-    (255,0,0),
-    (0,255,255),
-    (255,255,255)
+    (0, 0, 255),      # Red
+    (0, 255, 0),      # Green
+    (255, 0, 0),      # Blue
+    (0, 255, 255),    # Yellow
+    (255, 0, 255),    # Magenta
+    (255, 255, 0),    # Cyan
+    (255, 255, 255),  # White
+    (0, 0, 0),        # Black
 ]
 
-def draw_ui(frame, tool, hover_x=None):
-    cv2.rectangle(frame, (0,0), (1000,80), (40,40,40), -1)
+# ================= BUTTON COORDINATES =================
+button_coords = {
+    "color_1": (490, 0, 530, 70),
+    "color_2": (540, 0, 580, 70),
+    "color_3": (590, 0, 630, 70),
+    "color_4": (640, 0, 680, 70),
+    "color_5": (690, 0, 730, 70),
+}
 
-    tools = ["brush","eraser","line","rect","circle","star","arrow"]
+# ================= DRAW UI =================
+def draw_ui(frame, current_tool):
+    """
+    Draw the top menu UI with buttons and colors
+    """
+    # Draw tool buttons
+    for btn_name, (x1, y1, x2, y2) in button_coords.items():
+        # Highlight selected tool
+        if btn_name == current_tool:
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 255), -1)
+        else:
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (50, 50, 50), -1)
+        
+        # Draw tool names
+        if btn_name.startswith("color"):
+            idx = int(btn_name[-1]) - 1
+            cv2.rectangle(frame, (x1+5, y1+5), (x2-5, y2-5), palette[idx], -1)
+        else:
+            cv2.putText(frame, btn_name.capitalize(), (x1+5, y1+40),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
-    x = 10
-    for t in tools:
-        color = (0,255,0) if tool == t else (200,200,200)
-
-        # Hover effect
-        if hover_x is not None and x < hover_x < x + 80:
-            color = (0,255,255)
-
-        cv2.putText(frame, t, (x,50),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.6,
-                    color, 2)
-        x += 100
-
-    # 🎨 Color palette
-    cx = 720
-    for c in palette:
-        cv2.rectangle(frame, (cx,20), (cx+40,60), c, -1)
-        cx += 50
+    # Draw separation line
+    cv2.line(frame, (0, 70), (frame.shape[1], 70), (200, 200, 200), 2)
