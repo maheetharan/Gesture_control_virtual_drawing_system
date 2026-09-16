@@ -69,7 +69,7 @@ python main.py
 
 **Maheetharan**
 - GitHub: [@maheetharan](https://github.com/maheetharan)
-- LinkedIn: [Your LinkedIn]
+- LinkedIn: https://www.linkedin.com/in/maheetharan-k-565ba3333?utm_source=share_via&utm_content=profile&utm_medium=member_android
 - B.Tech AI & Data Science, Kamaraj College of Engineering & Technology
 
 ---
